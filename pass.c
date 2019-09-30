@@ -110,23 +110,24 @@ void generate(cell head)
   int starting_address=atoi(cur->operand);
   cur->loc=1000;//atoi(cur->operand);
   //printf("%d",starting_address);
+  prev=cur;
+  cur=cur->link;
  }
- else
- {
+
   strcpy(str2,cur->opcode);
-  char str4[10]="end";
-  p=strcmp(str2,str4);
+  char str3[10]="end ";
+  p=strcmp(str2,str3);
   while(p!=0)
   {
    strcpy(str2,cur->label);
-   char str4[10]="****";
+   char str4[10]="*****";
    q=strcmp(str2,str4);
    if(q!=0)
    {
-     root=insert(cur->label,cur->loc); 
+     root=insert(cur->label,prev->loc); 
    }
    strcpy(str2,cur->opcode);
-   char str[10]="****";
+   char str[10]="*****";
    r=strcmp(str2,str4);
    if(r!=0)
    {
@@ -175,7 +176,6 @@ void generate(cell head)
     strcpy(str2,cur->opcode);
     char str5[10]="end ";
     p=strcmp(str2,str5);
-  }
  }
 // printf("Program length is %d",prev->loc-starting_address);
 }
