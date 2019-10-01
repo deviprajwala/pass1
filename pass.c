@@ -82,7 +82,8 @@ symtab getsymtab()
  
 void print(cell head)
 {
-cell cur;
+cell cur,prev;
+prev=NULL;
 cur=head;
 if(cur==NULL)
 {
@@ -112,6 +113,8 @@ void generate(cell head)
   //printf("%d",starting_address);
   prev=cur;
   cur=cur->link;
+  cur->loc=prev->loc;
+  goto label;
  }
 
   strcpy(str2,cur->opcode);
@@ -132,50 +135,42 @@ void generate(cell head)
    if(r!=0)
    {
     s=strcmp(str2,word1);
-    if(s==0){s=1;goto label1;}
-    s=strcmp(str2,resw1);
-    if(s==0){s=1;goto label2;}
-    s=strcmp(str2,resb1);
-    if(s==0){s=1;goto label3;}
-    s=strcmp(str2,byte1);
-    if(s==0){s=1;goto label4;}
-    else{goto label5;}
-    label1:
-    {
+    if(s==0)
+    {s=1;
      cur->loc=prev->loc+3;
+     goto label;
     }
-    label2:
-    {
+    s=strcmp(str2,resw1);
+    if(s==0)
+    {s=1;
      int x;
      x=atoi(cur->operand)*3;
      cur->loc=prev->loc+x;
+     goto label;
     }
-    label3:
-    {
+    s=strcmp(str2,resb1);
+    if(s==0)
+    {s=1;
      cur->loc=prev->loc+atoi(cur->operand);
+     goto label;
     }
-    label4:
-    {
+    s=strcmp(str2,byte1);
+    if(s==0)
+    {s=1;
      int len;
      strcpy(str3,cur->operand);
      len=strlen(str3);
-     cur->loc=prev->loc+len;
+     cur->loc=prev->loc+len-3;
+     goto label;
     }
-    label5:
-    {
-     cur->loc=prev->loc+3;
-    }
-   }
-   else
-   {
-    printf("INVALID OPERATION CODE\n");
-    exit(0);
-   }
+    cur->loc=prev->loc+3;
+label:    
     prev=cur;
     cur=cur->link;
     strcpy(str2,cur->opcode);
-    char str5[10]="end ";
+    char str5[10]="end";
     p=strcmp(str2,str5);
+   }
  }
 // printf("Program length is %d",prev->loc-starting_address);
 }
