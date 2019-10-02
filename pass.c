@@ -90,8 +90,8 @@ if(cur==NULL)
 {
  return;
 }
-//dectohexa(cur->loc);
-printf("%d     ",cur->loc);
+dectohexa(cur->loc);
+//printf("%d     ",cur->loc);
 printf("%s     ",cur->label);
 printf("%s     ",cur->opcode);
 printf("%s\n",cur->operand);
