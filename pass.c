@@ -30,6 +30,7 @@ cell input(cell head);
 void print(head);
 void generate();
 symtab insert(char a[10],int b);
+void dectohexa(int n);
 
 cell getcell()
 {
@@ -89,6 +90,7 @@ if(cur==NULL)
 {
  return;
 }
+//dectohexa(cur->loc);
 printf("%d     ",cur->loc);
 printf("%s     ",cur->label);
 printf("%s     ",cur->opcode);
@@ -196,6 +198,40 @@ symtab insert(char a[25],int b)
  prev->link=x;
  return root;
 }
+void dectohexa(int n)
+{
+ char hexadecimal[100];
+ int i=0;
+ while(n!=0)
+ {
+  int temp=0;
+  temp=n%16;
+  if(temp<10)
+  {
+   hexadecimal[i]=temp+48;
+   i++;
+  }
+  else
+  {
+   hexadecimal[i]=temp+55;
+   i++;
+  }
+  n=n/16;
+ }
+ int j;
+ for(j=i-1;j>=0;j--)
+ {
+  if(j==0)
+  {
+    printf("%c     ",hexadecimal[j]);
+  }
+  else
+  {
+  printf("%c",hexadecimal[j]);
+  }
+ }
+ 
+}
 int main()
 {
 int n,i;
@@ -214,4 +250,5 @@ printf("\n");
 printf("LOC  LABEL   OPCODE    OPERAND   \n");
 generate(head);
 print(head);
+
 }
