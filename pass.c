@@ -101,7 +101,7 @@ print(cur);
 
 void generate(cell head)
 {
- int res,p,q,r,s,c;
+ int res,p,q,r,s,c,x,locctr;
  cell cur,prev;
  cur=head;
 
@@ -111,11 +111,12 @@ void generate(cell head)
  if(res==0)
  {
   int starting_address=atoi(cur->operand);
+  locctr=starting_address;
   cur->loc=1000;//atoi(cur->operand);
   //printf("%d",starting_address);
-  //prev=cur;
-  //prev->loc=cur->loc;
-  //cur=cur->link;
+  prev=cur;
+  cur=cur->link;
+  cur->loc=prev->loc;
   goto label;
  }
 
@@ -139,7 +140,7 @@ void generate(cell head)
     s=strcmp(str2,word1);
     if(s==0)
     {s=1;
-     cur->loc=cur->loc+3;
+     locctr=locctr+3;
      goto label;
     }
     s=strcmp(str2,resw1);
@@ -147,14 +148,14 @@ void generate(cell head)
     {s=1;
      int x;
      x=atoi(cur->operand)*3;
-     cur->loc=cur->loc+x;
+     locctr=locctr+x;
      goto label;
     }
     s=strcmp(str2,resb1);
     if(s==0)
     {s=1;
      c=dectohexa(atoi(cur->operand));
-     cur->loc=cur->loc+c;
+     locctr=locctr+c;
      goto label;
     }
     s=strcmp(str2,byte1);
@@ -163,15 +164,22 @@ void generate(cell head)
      int len;
      strcpy(str3,cur->operand);
      len=strlen(str3);
-     cur->loc=cur->loc+len-3;
+     locctr=locctr+len-3;
      goto label;
     }
-    cur->loc=cur->loc+3;
+    locctr=locctr+3;
 label:    
     prev=cur;
     cur=cur->link;
-    cur->loc=prev->loc;
+    cur->loc=locctr+3;
     strcpy(str2,cur->opcode);
+   // char str6[10]="cloop";
+   // x=strcmp(cur->label,str6);
+   // if(x==0)
+   // {
+    // x=1;
+    // cur->loc=cur->loc+3;
+   // }
     char str5[10]="end";
     p=strcmp(str2,str5);
    }
@@ -206,37 +214,36 @@ int dectohexa(int n)
  {
   return 1000;
  }
-// char hexadecimal[100];
-// int i=0;
-// while(n!=0)
-// {
-//  int temp=0;
-//  temp=n%16;
-//  if(temp<10)
-//  {
-//   hexadecimal[i]=temp+48;
-//   i++;
-//  }
-//  else
-//  {
-//   hexadecimal[i]=temp+55;
-//   i++;
-//  }
-//  n=n/16;
-// }
-// int j;
-// for(j=i-1;j>=0;j--)
-// {
-//  if(j==0)
-//  {
-//    printf("%c     ",hexadecimal[j]);
-//  }
-//  else
-//  {
-//  printf("%c",hexadecimal[j]);
-//  }
-// }
- else
+ char hexadecimal[100];
+ int i=0;
+ while(n!=0)
+ {
+  int temp=0;
+  temp=n%16;
+  if(temp<10)
+  {
+   hexadecimal[i]=temp+48;
+   i++;
+  }
+  else
+  {
+   hexadecimal[i]=temp+55;
+   i++;
+  }
+  n=n/16;
+ }
+ int j;
+ for(j=i-1;j>=0;j--)
+ {
+  if(j==0)
+  {
+    printf("%c     ",hexadecimal[j]);
+  }
+  else
+  {
+  printf("%c",hexadecimal[j]);
+  }
+ }
  return 0;
 }
 void printsymtab (symtab root)
@@ -254,7 +261,7 @@ int main()
 {
 int n,i;
 cell head;
-printf("Enter the number of lines: ");
+//printf("Enter the number of lines: ");
 scanf("%d  ",&n);
 for(i=1;i<=n;i++)
 {
@@ -268,6 +275,8 @@ printf("\n");
 printf("LOC  LABEL   OPCODE    OPERAND   \n");
 generate(head);
 print(head);
-printf("The symbol tabel is\n");
+printf("\n");
+printf("\nThe symbol tabel is\n");
+printf("LABEL     LOCATION   \n");
 printsymtab (root);
 }
