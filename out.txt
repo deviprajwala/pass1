@@ -1,47 +1,65 @@
 Enter the number of lines: 
 LOC  LABEL   OPCODE    OPERAND   
-3E8     copy     start      1000
-3E8     first      stl      retadr
-3EB     cloop     jsub     rdrec
-3EE     *****     lda     length
-3F1     *****     comp     zero
-3F4     *****     jeq     endfil
-3F7     *****     jsub     wrrec
-3FA     *****     j      cloop
-3FD     endfil     lda     eof
-400     *****     sta     buffer
-403     *****     lda     three
-406     *****     sta      length
-409     *****     jsub     wrrec
-40C     *****     ldl     retadr
-40F     *****     rsub     *****
-412     eof     byte     c'eof'
-415     three      word     3
-418     zero     word     0
-41B     retadr     resw     1
-41E     length     resw     1
-141E     buffer     resb     4096
-1421     rdrec     ldx     zero
-1424     *****     lda     zero
-1427     rloop     td     input
-142A     *****     jeq     rloop
-142D     *****     rd     input
-1430     *****     comp     zero
-1433     *****     jeq     exit
-1436     *****     stch     buffer,x
-1439     *****     tix     maxlen
-143C     *****     jlt     rloop
-143F     exit     stx     length
-1442     *****     rsub     *****
-1444     input      byte     x'f1'
-1447     maxlen     word     4096
-144A     wrrec     ldx     zero
-144D     wloop     td     output
-1450     *****     jeq     wloop
-1453     *****     ldch     buffer,x
-1456     *****     wd     output
-1459     *****     tix     length
-145C     *****     jlt     wloop
-145F     *****     rsub     *****
-1461     output     byte     x'05'
-*****     end     first
+1000     copy     start      1000
+1003     first      stl      retadr
+1006     cloop     jsub     rdrec
+1009     *****     lda     length
+1012     *****     comp     zero
+1015     *****     jeq     endfil
+1018     *****     jsub     wrrec
+1021     *****     j      cloop
+1024     endfil     lda     eof
+1027     *****     sta     buffer
+1030     *****     lda     three
+1033     *****     sta      length
+1036     *****     jsub     wrrec
+1039     *****     ldl     retadr
+1042     *****     rsub     *****
+1045     eof     byte     c'eof'
+1048     three      word     3
+1051     zero     word     0
+1054     retadr     resw     1
+1057     length     resw     1
+2057     buffer     resb     4096
+2060     rdrec     ldx     zero
+2063     *****     lda     zero
+2066     rloop     td     input
+2069     *****     jeq     rloop
+2072     *****     rd     input
+2075     *****     comp     zero
+2078     *****     jeq     exit
+2081     *****     stch     buffer,x
+2084     *****     tix     maxlen
+2087     *****     jlt     rloop
+2090     exit     stx     length
+2093     *****     rsub     *****
+2095     input      byte     x'f1'
+2098     maxlen     word     4096
+2101     wrrec     ldx     zero
+2104     wloop     td     output
+2107     *****     jeq     wloop
+2110     *****     ldch     buffer,x
+2113     *****     wd     output
+2116     *****     tix     length
+2119     *****     jlt     wloop
+2122     *****     rsub     *****
+2124     output     byte     x'05'
+2124     *****     end     first
+The symbol tabel is
+first      1000     
+cloop     1003     
+endfil     1021     
+eof     1042     
+three      1045     
+zero     1048     
+retadr     1051     
+length     1054     
+buffer     1057     
+rdrec     2057     
+rloop     2063     
+exit     2087     
+input      2093     
+maxlen     2095     
+wrrec     2098     
+wloop     2101     
+output     2122     
