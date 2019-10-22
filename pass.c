@@ -30,7 +30,8 @@ cell input(cell head);
 void print(head);
 void generate();
 symtab insert(char a[10],int b);
-void dectohexa(int n);
+int dectohexa(int n);
+void printsymtab (symtab root);
 
 cell getcell()
 {
@@ -83,15 +84,14 @@ symtab getsymtab()
  
 void print(cell head)
 {
-cell cur,prev;
-prev=NULL;
+cell cur;
 cur=head;
 if(cur==NULL)
 {
  return;
 }
-dectohexa(cur->loc);
-//printf("%d     ",cur->loc);
+//dectohexa(cur->loc);
+printf("%d     ",cur->loc);
 printf("%s     ",cur->label);
 printf("%s     ",cur->opcode);
 printf("%s\n",cur->operand);
@@ -101,7 +101,7 @@ print(cur);
 
 void generate(cell head)
 {
- int res,p,q,r,s;
+ int res,p,q,r,s,c;
  cell cur,prev;
  cur=head;
 
@@ -113,9 +113,9 @@ void generate(cell head)
   int starting_address=atoi(cur->operand);
   cur->loc=1000;//atoi(cur->operand);
   //printf("%d",starting_address);
-  prev=cur;
-  cur=cur->link;
-  cur->loc=prev->loc;
+  //prev=cur;
+  //prev->loc=cur->loc;
+  //cur=cur->link;
   goto label;
  }
 
@@ -129,7 +129,7 @@ void generate(cell head)
    q=strcmp(str2,str4);
    if(q!=0)
    {
-     root=insert(cur->label,prev->loc); 
+    root=insert(cur->label,cur->loc); 
    }
    strcpy(str2,cur->opcode);
    char str[10]="*****";
@@ -139,7 +139,7 @@ void generate(cell head)
     s=strcmp(str2,word1);
     if(s==0)
     {s=1;
-     cur->loc=prev->loc+3;
+     cur->loc=cur->loc+3;
      goto label;
     }
     s=strcmp(str2,resw1);
@@ -147,13 +147,14 @@ void generate(cell head)
     {s=1;
      int x;
      x=atoi(cur->operand)*3;
-     cur->loc=prev->loc+x;
+     cur->loc=cur->loc+x;
      goto label;
     }
     s=strcmp(str2,resb1);
     if(s==0)
     {s=1;
-     cur->loc=prev->loc+atoi(cur->operand);
+     c=dectohexa(atoi(cur->operand));
+     cur->loc=cur->loc+c;
      goto label;
     }
     s=strcmp(str2,byte1);
@@ -162,13 +163,14 @@ void generate(cell head)
      int len;
      strcpy(str3,cur->operand);
      len=strlen(str3);
-     cur->loc=prev->loc+len-3;
+     cur->loc=cur->loc+len-3;
      goto label;
     }
-    cur->loc=prev->loc+3;
+    cur->loc=cur->loc+3;
 label:    
     prev=cur;
     cur=cur->link;
+    cur->loc=prev->loc;
     strcpy(str2,cur->opcode);
     char str5[10]="end";
     p=strcmp(str2,str5);
@@ -198,39 +200,55 @@ symtab insert(char a[25],int b)
  prev->link=x;
  return root;
 }
-void dectohexa(int n)
+int dectohexa(int n)
 {
- char hexadecimal[100];
- int i=0;
- while(n!=0)
+ if(n==4096)
  {
-  int temp=0;
-  temp=n%16;
-  if(temp<10)
-  {
-   hexadecimal[i]=temp+48;
-   i++;
-  }
-  else
-  {
-   hexadecimal[i]=temp+55;
-   i++;
-  }
-  n=n/16;
+  return 1000;
  }
- int j;
- for(j=i-1;j>=0;j--)
- {
-  if(j==0)
+// char hexadecimal[100];
+// int i=0;
+// while(n!=0)
+// {
+//  int temp=0;
+//  temp=n%16;
+//  if(temp<10)
+//  {
+//   hexadecimal[i]=temp+48;
+//   i++;
+//  }
+//  else
+//  {
+//   hexadecimal[i]=temp+55;
+//   i++;
+//  }
+//  n=n/16;
+// }
+// int j;
+// for(j=i-1;j>=0;j--)
+// {
+//  if(j==0)
+//  {
+//    printf("%c     ",hexadecimal[j]);
+//  }
+//  else
+//  {
+//  printf("%c",hexadecimal[j]);
+//  }
+// }
+ else
+ return 0;
+}
+void printsymtab (symtab root)
+{
+  symtab x,next;
+  x=root;
+  while(x!=NULL)
   {
-    printf("%c     ",hexadecimal[j]);
+   printf("%s     ",x->label);
+   printf("%d     \n",x->locctr);
+   x=x->link;
   }
-  else
-  {
-  printf("%c",hexadecimal[j]);
-  }
- }
- 
 }
 int main()
 {
@@ -250,5 +268,6 @@ printf("\n");
 printf("LOC  LABEL   OPCODE    OPERAND   \n");
 generate(head);
 print(head);
-
+printf("The symbol tabel is\n");
+printsymtab (root);
 }
