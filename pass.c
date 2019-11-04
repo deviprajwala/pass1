@@ -112,7 +112,7 @@ void generate(cell head)
  {
   int starting_address=atoi(cur->operand);
   locctr=starting_address;
-  cur->loc=1000;//atoi(cur->operand);
+  cur->loc=starting_address;//atoi(cur->operand);
   //printf("%d",starting_address);
   prev=cur;
   cur=cur->link;
@@ -173,18 +173,10 @@ label:
     cur=cur->link;
     cur->loc=locctr+3;
     strcpy(str2,cur->opcode);
-   // char str6[10]="cloop";
-   // x=strcmp(cur->label,str6);
-   // if(x==0)
-   // {
-    // x=1;
-    // cur->loc=cur->loc+3;
-   // }
     char str5[10]="end";
     p=strcmp(str2,str5);
    }
  }
-// printf("Program length is %d",prev->loc-starting_address);
 }
 symtab insert(char a[25],int b)
 {
