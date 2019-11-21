@@ -1,18 +1,16 @@
 
 LOC  LABEL   OPCODE    OPERAND   
-0     copy     start     1000
--1217098930     *****     lda     alpha
--1217098927     *****     sta     beta
--1217098924     *****     lda     gamma
--1217098921     alpha     resw     1
--1217098918     *****     sta     alpha
--1217098915     beta     resw     1
--1217098912     *****     end     *****
-0     *****     end     *****
+1000    copy     start     1000
+1000     *****     lda     alpha
+1003     *****     sta     beta
+1006     *****     lda     gamma
+1009     alpha     resw     1
+1012     *****     sta     alpha
+1014     beta     resw     1
+1017     *****     end     *****
 
 
 The symbol tabel is
-LABEL     LOCATION   
-copy     0     
-alpha     -1217098921     
-beta     -1217098915     
+LABEL     LOCATION       
+alpha     1009    
+beta     1014     
